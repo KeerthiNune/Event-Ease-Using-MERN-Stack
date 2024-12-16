@@ -34,10 +34,14 @@ const Setting = () =>{
                         },
                     }
                 );
-                if(response.data.success){
-                    navigate('/student-dashboard')
-                    setError('')
+                if (response.data.success) {
+                    if (user.role === 'admin') {
+                        navigate('/admin-dashboard');
+                    } else if (user.role === 'Student') {
+                        navigate('/student-dashboard');
+                    }
                 }
+
             }
             catch(error){
                 if(error.response && !error.response.data.success){

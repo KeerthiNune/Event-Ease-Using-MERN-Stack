@@ -7,6 +7,7 @@ import studentRouter from './routes/student.js'
 import connectToDatabase from "./db/db.js"
 import requestRouter from "./routes/request.js"
 import settingRouter from './routes/setting.js'
+import dashboardRouter from './routes/dashboard.js'
 
 dotenv.config()
 connectToDatabase();
@@ -18,6 +19,7 @@ app.use('/api/department',departmentRouter)
 app.use('/api/student',studentRouter)
 app.use('/api/request',requestRouter)
 app.use('/api/setting',settingRouter)
+app.use('/api/dashboard',dashboardRouter)
 
 
 

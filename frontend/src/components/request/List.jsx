@@ -6,7 +6,7 @@ import { useAuth } from "../../context/authContext";
 const List = () => {
 
     const [requests, setRequests] = useState([])
-    //const {user} = useAuth()
+    const {user} = useAuth()
     const {id} = useParams()
 
     const fetchRequests = async () =>{
@@ -44,11 +44,13 @@ const List = () => {
                         <input type="text" 
                         placeholder="Search by Dep Name" 
                         className="px-4 py-0.5 border" />
+                        {user?.role === "Student" && (
                         <Link to="/student-dashboard/add-request"
                          className="px-4 py-1 bg-teal-600 text-white rounded no-underline"
                          >
                             Add New Request
                         </Link>
+                        )}
             </div>
 
                     <table className = "w-full text-sm text-left text-gray-500">

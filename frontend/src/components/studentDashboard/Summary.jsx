@@ -5,6 +5,7 @@ import axios from "axios";
 
 const Summary = () => {
     const {user} = useAuth()
+    console.log(user)
     return(
         <div className = "p-6">
         <div className = "rounded flex bg-white">
@@ -13,7 +14,7 @@ const Summary = () => {
             </div>
             <div className = "pl-4 py-1">
                 <p className = "text-lg font-semibold">Welcome Back</p>
-                <p className = "text-xl font-bold">{user.name}</p>
+                <p className = "text-xl font-bold">{user.regNo}</p>
             </div>
         </div>
         </div>

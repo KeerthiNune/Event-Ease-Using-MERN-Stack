@@ -43,6 +43,7 @@ function App() {
           <Route path='/admin-dashboard/requests' element={<Table/>}></Route>
           <Route path='/admin-dashboard/requests/:id' element={<Detail/>}></Route>
           <Route path='/admin-dashboard/students/requests/:id' element={<RequestList/>}></Route>
+          <Route path='/admin-dashboard/setting' element={<Setting/>}></Route>
 
           <Route path='/admin-dashboard/students' element={<StudentList/>}></Route>
           <Route path='/admin-dashboard/add-student' element={<AddStudent/>}></Route>

@@ -31,7 +31,7 @@ const AdminSidebar = ()=>{
                     <FaCalendarAlt />
                     <span>Requests</span>
                 </NavLink>
-                <NavLink to = "/admin-dashboard"
+                <NavLink to = "/admin-dashboard/setting"
                 className = "flex items-center text-white space-x-4  py-2.5 rounded no-underline"> 
                     <FaCogs />
                     <span>Settings</span>

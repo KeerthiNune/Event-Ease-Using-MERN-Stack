@@ -9,51 +9,49 @@ const DepartmentList = () => {
     const [depLoading, setDepLoading] = useState(false);
     const [filteredDepartments, setFilteredDepartments] = useState([])
 
-    const onDepartmentDelete = async (id) =>{
-        const data = departments.filter(dep => dep._id !== id)
-        setDepartments(data)
+    const onDepartmentDelete = async () =>{
+       fetchDepartments();
     }
+    const fetchDepartments = async () => {
+        setDepLoading(true);
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                alert('Please log in to view departments.');
+                setDepLoading(false);
+                return;
+            }
+
+            const response = await axios.get("http://localhost:5000/api/department", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.data.success) {
+                const data = response.data.departments.map((dep, index) => ({
+                    _id: dep._id,
+                    sno: index + 1,
+                    dep_name: dep.dep_name,
+                    dep_id : dep.dep_id,
+                    action: <DepartmentButtons Id = {dep._id} onDepartmentDelete={onDepartmentDelete}/>
+                }));
+                setDepartments(data);
+                setFilteredDepartments(data);
+            }
+        } catch (error) {
+            if (error.response && error.response.data && !error.response.data.success) {
+                alert(error.response.data.error);
+            } else {
+                console.error('Error fetching departments:', error.message);
+                alert('Something went wrong while fetching departments.');
+            }
+        } finally {
+            setDepLoading(false);
+        }
+    };
 
     useEffect(() => {
-        const fetchDepartments = async () => {
-            setDepLoading(true);
-            try {
-                const token = localStorage.getItem("token");
-                if (!token) {
-                    alert('Please log in to view departments.');
-                    setDepLoading(false);
-                    return;
-                }
-
-                const response = await axios.get("http://localhost:5000/api/department", {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
-
-                if (response.data.success) {
-                    const data = response.data.departments.map((dep, index) => ({
-                        _id: dep._id,
-                        sno: index + 1,
-                        dep_name: dep.dep_name,
-                        dep_id : dep.dep_id,
-                        action: <DepartmentButtons Id = {dep._id} onDepartmentDelete={onDepartmentDelete}/>
-                    }));
-                    setDepartments(data);
-                    setFilteredDepartments(data);
-                }
-            } catch (error) {
-                if (error.response && error.response.data && !error.response.data.success) {
-                    alert(error.response.data.error);
-                } else {
-                    console.error('Error fetching departments:', error.message);
-                    alert('Something went wrong while fetching departments.');
-                }
-            } finally {
-                setDepLoading(false);
-            }
-        };
-
         fetchDepartments();
     }, []);
 
