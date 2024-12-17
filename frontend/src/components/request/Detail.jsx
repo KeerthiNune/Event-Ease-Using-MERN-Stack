@@ -15,10 +15,12 @@ const Detail = () =>{
                         Authorization: `Bearer ${localStorage.getItem("token")}`
                     }
                 });
+                console.log(response)
 
                 if (response.data.success) {
                     setLeave(response.data.leave)
                 }
+                console.log(leave)
             } catch (error) {
                 if (error.response && error.response.data && !error.response.data.success) {
                     alert(error.response.data.error);
@@ -52,6 +54,7 @@ const Detail = () =>{
                }
            } 
     }
+
     
     return(
         <>{leave?(
@@ -85,6 +88,20 @@ const Detail = () =>{
                 <div className='flex space-x-3 mb-2'>
                     <p className='text-lg font-bold'>Department:</p>
                     <p className='font-medium'>{leave.regNo.department.dep_name}</p>
+                </div>
+                <div className='flex space-x-3 mb-2'>
+                    <p className='text-lg font-bold'>Students Attending:</p>
+                    <p className='font-medium'>{leave.students && leave.students.length > 0 ? (
+            <ul className="list-disc pl-5">
+                {leave.students.map((student, index) => (
+                    <li key={index} className="mb-1">
+                        {student.name} ({student.regNo})
+                    </li>
+                ))}
+            </ul>
+        ) : (
+            <p>No students have been added.</p>
+        )}</p>
                 </div>
                 <div className='flex space-x-3 mb-2'>
                     <p className='text-lg font-bold'>{leave.status === "Pending" ? "Action:" : "Status:"}</p>

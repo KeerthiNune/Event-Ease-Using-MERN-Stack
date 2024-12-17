@@ -27,6 +27,24 @@ const List = () => {
         }
     }
 
+    const deleteRequest = async (requestId) => {
+        try {
+            const response = await axios.delete(`http://localhost:5000/api/request/${requestId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            if (response.data.success) {
+                alert("Request deleted successfully");
+                fetchRequests(); // Refresh the list after deletion
+            }
+        } catch (error) {
+            console.log(error.message);
+            alert("Failed to delete the request");
+        }
+    };
+    
+
     useEffect(() => {
         fetchRequests();
     },[])
@@ -63,6 +81,7 @@ const List = () => {
                                 <th className = "px-6 py-3">Students List</th>
                                 <th className = "px-6 py-3">Applied Date</th>
                                 <th className = "px-6 py-3">Status</th>
+                                <th className = "px-6 py-3">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -81,6 +100,16 @@ const List = () => {
                                     </td>
                                 <td className = "px-6 py-3">{new Date(request.appliedAt).toLocaleDateString()}</td>
                                 <td className = "px-6 py-3">{request.status}</td>
+                                <td className="px-6 py-3">
+                                    {user?.role === "Student" && (
+                                        <button
+                                            onClick={() => deleteRequest(request._id)}
+                                            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-700"
+                                        >
+                                            Delete
+                                        </button>
+                                    )}
+                                </td>
                             </tr>
                             ))}
                         </tbody>

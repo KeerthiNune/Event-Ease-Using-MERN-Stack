@@ -108,4 +108,16 @@ const updateRequest = async (req,res) => {
     }
 }
 
-export {addRequest,getRequest,getRequests, getRequestDetail,updateRequest}
+const deleteRequest = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const request = await Leaves.findById({_id:id})
+        await request.deleteOne()
+        return res.status(200).json({success:true,request})
+    } catch (error) {
+        console.log(error.message);
+        return res.status(500).json({ success: false, error: `Request delete server error ${error}` });
+    }
+};
+
+export {addRequest,getRequest,getRequests, getRequestDetail,updateRequest,deleteRequest}
